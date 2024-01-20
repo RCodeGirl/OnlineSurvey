@@ -13,7 +13,7 @@ services:
    networks: 
     - online-survey-dev
   depends_on:
-   -db_survey
+   - db_survey
  db_survey:
     container_name: db_survey
     ports:
