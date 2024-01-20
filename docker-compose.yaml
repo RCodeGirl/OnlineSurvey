@@ -1,7 +1,18 @@
 version: '3.5'
-
+networks:
+  online-survey-dev:
+    driver: bridje
 services:
-  db_survey:
+ app:
+  container_name: online_survey
+  build:
+   context:
+   dockerfile: DockerFile
+   ports:
+    - "80:80"
+   networks: 
+    -online-survey-dev
+ db_survey:
     container_name: db_survey
     ports:
       - "5432:5432"
