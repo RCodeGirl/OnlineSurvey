@@ -13,7 +13,7 @@ namespace OnlineSurvey.Domain.Entities
     {
         [Required]
         [ForeignKey("Survey")]
-        public int SurveyId { get; set; }
+        public Guid SurveyId { get; set; }
 
         public DateTime InterviewDate { get; set; }
 
