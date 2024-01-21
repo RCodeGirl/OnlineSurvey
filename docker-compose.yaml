@@ -1,33 +1,41 @@
 version: '3.5'
+
 networks:
   online-survey-dev:
     driver: bridge
+
 services:
- app:
-  container_name: online_survey
-  build:
-   context:
-   dockerfile: DockerFile
-   ports:
-    - "80:80"
-   networks: 
-    - online-survey-dev
+ app:  
   depends_on:
    - db_survey
+  container_name: online_survey 
+  ports:
+    - "80:80"
+  build:
+   context: .  
+   dockerfile: Dockerfile
+  environment:
+   - ConnectionString_OnlineSurvey=User ID=admin;Password=survey; Server=db_survey; Port=5432;Database=online_survey; IntegratedSecurity=true; Pooling=true;
+   - ASPNETCORE_URLS=http://+:80
+  networks: 
+    - online-survey-dev
+  
  db_survey:
-    container_name: db_survey
-    ports:
-      - "5432:5432"
+    image: postgres:14.3-alpine
+    container_name: db_survey    
     environment:
       - POSTGRES_PASSWORD=survey
       - POSTGRES_USER=admin
       - POSTGRES_DB=online_survey
+    ports:
+      - "5432:5432"
+    restart: always    
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
     networks: 
       - online-survey-dev
-    volumes:
-     - postgres-data: /var/lib/postgresql/data
-    image: postgres:14.3-alpine
- volumes:
+    
+volumes:
    postgres-data:
 
 
