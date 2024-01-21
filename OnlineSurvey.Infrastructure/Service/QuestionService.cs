@@ -3,6 +3,7 @@ using OnlineSurvey.Abstractions.Repositories;
 using OnlineSurvey.Shared.Dto;
 using OnlineSurvey.Infrastructure.Mappers;
 using OnlineSurvey.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 
 
@@ -23,11 +24,11 @@ namespace OnlineSurvey.Infrastructure.Service
             return question?.Map();
         }
 
-        public async Task<List<QuestionDto?>> GetAllAsync(Guid surveyId)
+        public async Task<List<QuestionDto>> GetAllAsync(Guid surveyId)
         {
-            var entities = await _questionRepository.GetListAsync(_ =>_.SurveyId== surveyId);
+            var entities = await _questionRepository.Where(_ =>_.SurveyId== surveyId).ToListAsync();
 
-            return entities?.Map();
+            return entities.Map();
         }
 
     }

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineSurvey.Abstractions", "OnlineSurvey.Abstractions\OnlineSurvey.Abstractions.csproj", "{E9564078-EF53-4BC3-8DBB-3E8E1685B5AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineSurvey.Domain", "Domain\OnlineSurvey.Domain.csproj", "{79E36A09-2C24-4218-BF93-224F2A1441FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineSurvey.Domain", "OnlineSurvey.Domain\OnlineSurvey.Domain.csproj", "{79E36A09-2C24-4218-BF93-224F2A1441FC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineSurvey.Persistence", "OnlineSurvey.Persistence\OnlineSurvey.Persistence.csproj", "{7E30F2D7-608F-4AE7-BA93-766D0051EBB5}"
 EndProject
@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineSurvey.Shared", "Onli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineSurvey.Infrastructure", "OnlineSurvey.Infrastructure\OnlineSurvey.Infrastructure.csproj", "{6755678A-4B0A-4151-B51F-5D23189AA2EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineSurvey.Aplication", "OnlineSurvey.Aplication\OnlineSurvey.Aplication.csproj", "{55B7C50E-DF2A-40D7-A369-C294259E6843}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineSurvey.Aplication", "OnlineSurvey.Aplication\OnlineSurvey.Aplication.csproj", "{55B7C50E-DF2A-40D7-A369-C294259E6843}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{69BF29DD-0D35-4B12-BD7D-7FFCA9BA2D5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{55B7C50E-DF2A-40D7-A369-C294259E6843}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55B7C50E-DF2A-40D7-A369-C294259E6843}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55B7C50E-DF2A-40D7-A369-C294259E6843}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69BF29DD-0D35-4B12-BD7D-7FFCA9BA2D5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69BF29DD-0D35-4B12-BD7D-7FFCA9BA2D5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69BF29DD-0D35-4B12-BD7D-7FFCA9BA2D5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69BF29DD-0D35-4B12-BD7D-7FFCA9BA2D5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

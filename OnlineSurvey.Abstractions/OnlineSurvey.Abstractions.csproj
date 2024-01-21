@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\OnlineSurvey.Domain.csproj" />
+    <ProjectReference Include="..\OnlineSurvey.Domain\OnlineSurvey.Domain.csproj" />
     <ProjectReference Include="..\OnlineSurvey.Shared\OnlineSurvey.Shared.csproj" />
   </ItemGroup>
 
