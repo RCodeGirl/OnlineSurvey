@@ -11,6 +11,8 @@ namespace OnlineSurvey.Abstractions.Services
     public interface IQuestionService
     {
         Task<QuestionDto?> GetByIdAsync(Guid id);
-        Task<List<QuestionDto>> GetAllAsync(Guid SurveyId);
+        Task<List<QuestionDto>> GetAllAsync(Guid surveyId);
+        Task<QuestionDto?> GetNextQuestion(Guid surveyId, int previousQuestion);
+       
     }
 }

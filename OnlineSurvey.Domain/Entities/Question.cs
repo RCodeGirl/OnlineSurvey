@@ -10,16 +10,13 @@ namespace OnlineSurvey.Domain.Entities
     public class Question : BaseEntity
     {
         public required string Title { get; set; }
-
-        [ForeignKey("Survey")]
+       
         public Guid SurveyId { get; set; }
 
         public Survey Survey { get; set; }
+        public List<Answer> Answers { get; set; } = new();
 
-        public List<Answer> Answers { get; set; }
-
-        public List<Result> Results { get; set; }
-
+        public int Order { get; set; }
 
     }
 }

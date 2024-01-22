@@ -2,8 +2,8 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OnlineSurvey.Persistence;
 
 #nullable disable
@@ -18,22 +18,22 @@ namespace OnlineSurvey.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.1")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("OnlineSurvey.Domain.Entities.Answer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("QuestionId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -46,13 +46,16 @@ namespace OnlineSurvey.Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("InterviewDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("SurveyId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -65,14 +68,17 @@ namespace OnlineSurvey.Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("SurveyId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -85,16 +91,16 @@ namespace OnlineSurvey.Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AnswerId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("InterviewId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("QuestionId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -111,15 +117,15 @@ namespace OnlineSurvey.Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -131,7 +137,7 @@ namespace OnlineSurvey.Persistence.Migrations
                     b.HasOne("OnlineSurvey.Domain.Entities.Question", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Question");
@@ -142,7 +148,7 @@ namespace OnlineSurvey.Persistence.Migrations
                     b.HasOne("OnlineSurvey.Domain.Entities.Survey", "Survey")
                         .WithMany("Interviews")
                         .HasForeignKey("SurveyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Survey");
@@ -151,9 +157,9 @@ namespace OnlineSurvey.Persistence.Migrations
             modelBuilder.Entity("OnlineSurvey.Domain.Entities.Question", b =>
                 {
                     b.HasOne("OnlineSurvey.Domain.Entities.Survey", "Survey")
-                        .WithMany("Question")
+                        .WithMany()
                         .HasForeignKey("SurveyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Survey");
@@ -162,21 +168,21 @@ namespace OnlineSurvey.Persistence.Migrations
             modelBuilder.Entity("OnlineSurvey.Domain.Entities.Result", b =>
                 {
                     b.HasOne("OnlineSurvey.Domain.Entities.Answer", "Answer")
-                        .WithMany("Results")
+                        .WithMany()
                         .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("OnlineSurvey.Domain.Entities.Interview", "Interview")
-                        .WithMany("Results")
+                        .WithMany()
                         .HasForeignKey("InterviewId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("OnlineSurvey.Domain.Entities.Question", "Question")
-                        .WithMany("Results")
+                        .WithMany()
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Answer");
@@ -186,28 +192,14 @@ namespace OnlineSurvey.Persistence.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("OnlineSurvey.Domain.Entities.Answer", b =>
-                {
-                    b.Navigation("Results");
-                });
-
-            modelBuilder.Entity("OnlineSurvey.Domain.Entities.Interview", b =>
-                {
-                    b.Navigation("Results");
-                });
-
             modelBuilder.Entity("OnlineSurvey.Domain.Entities.Question", b =>
                 {
                     b.Navigation("Answers");
-
-                    b.Navigation("Results");
                 });
 
             modelBuilder.Entity("OnlineSurvey.Domain.Entities.Survey", b =>
                 {
                     b.Navigation("Interviews");
-
-                    b.Navigation("Question");
                 });
 #pragma warning restore 612, 618
         }
