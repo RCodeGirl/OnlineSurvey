@@ -16,7 +16,10 @@ namespace OnlineSurvey.Aplication.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Start(Guid surveyId, Guid userId)
+		[ProducesResponseType(typeof(Guid),StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		public async Task<IActionResult> Start(Guid surveyId, Guid userId)
         {
             var interw = await _interviewService.Create(surveyId, userId);
             return Ok(interw);

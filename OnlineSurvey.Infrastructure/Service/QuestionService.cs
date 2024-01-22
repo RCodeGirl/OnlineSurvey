@@ -20,7 +20,7 @@ namespace OnlineSurvey.Infrastructure.Service
         }
         public async Task<QuestionDto?> GetByIdAsync(Guid id)
         {
-            var question = await _questionRepository.GetAsync(_ => _.Id == id);
+            var question = await _questionRepository.Where(_ => _.Id == id).Include(q => q.Answers).FirstOrDefaultAsync();
 
             return question?.Map();
         }

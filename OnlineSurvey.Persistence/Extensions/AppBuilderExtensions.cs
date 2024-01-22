@@ -51,10 +51,11 @@ namespace OnlineSurvey.Persistence.Extensions
         {
             public static List<Survey> GenerateSurveys(int numberOfSurveys, int questionsPerSurvey, int answersPerQuestion, int interviewsPerSurvey)
             {
-                var surveyFaker = new Faker<Survey>()
+                var surveyFaker = new Faker<Survey>("ru")
                     .RuleFor(s => s.Id, f => f.Random.Guid())
                     .RuleFor(s => s.Title, f => f.Lorem.Sentence())
-                    .RuleFor(s => s.Questions, f => GenerateQuestions(questionsPerSurvey, answersPerQuestion))
+					.RuleFor(s => s.Description, f => f.Lorem.Paragraph())					 
+					.RuleFor(s => s.Questions, f => GenerateQuestions(questionsPerSurvey, answersPerQuestion))
                     .RuleFor(s => s.Interviews, f => GenerateInterviews(interviewsPerSurvey));
 
                 return surveyFaker.Generate(numberOfSurveys);
@@ -62,9 +63,9 @@ namespace OnlineSurvey.Persistence.Extensions
 
             private static List<Question> GenerateQuestions(int numberOfQuestions, int answersPerQuestion)
             {
-                var questionFaker = new Faker<Question>()
+                var questionFaker = new Faker<Question>("ru")
                     .RuleFor(q => q.Id, f => f.Random.Guid())
-                    .RuleFor(q => q.Order, f => f.IndexVariable+1)
+                    .RuleFor(q => q.Order, (f,ql) => ++f.IndexVariable)
                     .RuleFor(q => q.Title, f => f.Lorem.Sentence())
                     .RuleFor(q => q.Answers, f => GenerateAnswers(answersPerQuestion));
 
@@ -73,7 +74,7 @@ namespace OnlineSurvey.Persistence.Extensions
 
             private static List<Answer> GenerateAnswers(int numberOfAnswers)
             {
-                var answerFaker = new Faker<Answer>()
+                var answerFaker = new Faker<Answer>("ru")
                     .RuleFor(a => a.Id, f => f.Random.Guid())
                     .RuleFor(a => a.Title, f => f.Lorem.Word());
                     
@@ -82,9 +83,10 @@ namespace OnlineSurvey.Persistence.Extensions
             }
             private static List<Interview> GenerateInterviews(int numberOfInterviews)
             {
-                var interviewFaker = new Faker<Interview>()
+                var interviewFaker = new Faker<Interview>("ru")
                     .RuleFor(i => i.Id, f => f.Random.Guid())
                     .RuleFor(i => i.SurveyId, f => f.Random.Guid())
+                    .RuleFor(i => i.InterviewDate, f => DateTime.Now.ToUniversalTime())
                     .RuleFor(i => i.UserId, f => new Guid("BB2DCF2D-9D19-448B-B561-4D81788B2A31"));
 
                 return interviewFaker.Generate(numberOfInterviews);
