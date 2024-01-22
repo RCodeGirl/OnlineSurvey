@@ -17,9 +17,7 @@ namespace OnlineSurvey.Domain.Entities
         public required string Title {  get; set; }
 
         public string? Description { get; set; }
-
-        public List<Question> Question { get; set; }
-        public List<Interview> Interviews { get; set; }
-
+        public List<Interview> Interviews { get; set; } = new();
+        public List<Question> Questions { get; set; } = new();
     }
 }

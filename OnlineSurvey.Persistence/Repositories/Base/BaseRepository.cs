@@ -32,9 +32,9 @@ namespace OnlineSurvey.Persistence.Repositories.Base
             return await _dbSet.FirstOrDefaultAsync(predicate);
         }
 
-        public async Task<List<T>> GetListAsync(Expression<Func<T, bool>> predicate)
+        public  IQueryable<T> Where(Expression<Func<T, bool>> predicate)
         {
-            return await _dbSet.Where(predicate).ToListAsync();
+            return  _dbSet.Where(predicate);
         }
 
         public async Task SaveChangesAsync()
